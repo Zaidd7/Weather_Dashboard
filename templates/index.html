@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Weather Dashboard</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Weather<span>Pulse</span></h1>
+            <form id="search-form" method="post" action="/">
+                <input type="text" id="city-search" name="city" placeholder="Enter city name..." required>
+                <button type="submit">Search</button>
+            </form>
+        </header>
+        <main>
+            {% if error_message %}
+            <section class="error-message">
+                <p>{{ error_message }}</p>
+            </section>
+            {% elif weather %}
+            <section class="current-weather">
+                <div class="weather-card">
+                    <div class="weather-info">
+                        <h2 id="city-name">{{ weather.city }}</h2>
+                        <p id="current-date">{{ weather.current_date }}</p>
+                        <div class="temperature">
+                            <span id="temperature">{{ weather.temperature_celsius }}°C</span>
+                            <span id="feels-like">Feels like {{ weather.feels_like_celsius }}°C</span>
+                        </div>
+                    </div>
+                    <div class="weather-icon">
+                        <img src="http://openweathermap.org/img/wn/{{ weather.weather_icon }}@2x.png" alt="{{weather.description}}" id="weather-icon">
+                        <p id="weather-description">{{ weather.weather_desc }}</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="weather-details">
+                <div class="detail-card">
+                    <span class="detail-icon">🌡️</span>
+                    <span class="detail-label">Pressure</span>
+                    <strong id="pressure">{{ weather.pressure }} hPa</strong>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-icon">💨</span>
+                    <span class="detail-label">Wind</span>
+                    <strong id="wind-speed">{{ weather.wind_speed }} m/s</strong>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-icon">💧</span>
+                    <span class="detail-label">Humidity</span>
+                    <strong id="humidity">{{ weather.humidity }}%</strong>
+                </div>
+                <div class="detail-card">
+                    <span class="detail-icon">👁️</span>
+                    <span class="detail-label">Visibility</span>
+                    <strong id="visibility">{{ weather.visibility }} km</strong>
+                </div>
+            </section>
+            
+            {% if forecast %}
+            <section class="forecast">
+                <h3>5-Day Forecast</h3>
+                <div class="forecast-container">
+                    {% for day in forecast %}
+                    <div class="forecast-card">
+                        <div class="forecast-header">
+                            <div class="forecast-day-date">
+                                <h4>{{ day.day }}</h4>
+                                <p class="forecast-date">{{ day.date }}</p>
+                            </div>
+                            <span class="forecast-temp">{{ day.temp_c }}°C</span>
+                        </div>
+                        <div class="forecast-body">
+                            <img src="http://openweathermap.org/img/wn/{{ day.icon }}@2x.png" alt="{{ day.description }}">
+                            <p class="forecast-desc">{{ day.description }}</p>
+                        </div>
+                        <div class="forecast-footer">
+                            <div class="activity-note-container">
+                                <div class="activity-note">
+                                    <p>{{ day.activity }}</p>
+                                </div>
+                                <div class="activity-recommendations">
+                                    <h5>Recommended Activities:</h5>
+                                    <ul>
+                                        {{day.recommended_activities}}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- <a href="{{ url_for('schedule_event')}}" class="schedule-event-btn">Schedule Event</a> -->
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+            {% else %}
+            <section class="welcome-section">
+                <div class="welcome-card">
+                    <div class="welcome-icon">🌍</div>
+                    <h2>Welcome to WeatherPulse</h2>
+                    <p>Enter a city name to view detailed weather information and forecasts.</p>
+                </div>
+            </section>
+            {% endif %}
+        </main>
+        <footer>
+            <p>&copy; {{ current_year }} WeatherPulse. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

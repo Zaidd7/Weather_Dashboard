@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Confirmation - WeatherPulse</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/event-form-style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Event Created Successfully</h1>
+        <div class="event-details">
+            <h2>{{ event['summary'] }}</h2>
+            <p><strong>Location:</strong> {{ event['location'] }}</p>
+            <p><strong>Description:</strong> {{ event['description'] }}</p>
+            <p><strong>Start:</strong> {{ event['start']['dateTime'] }}</p>
+        </div>
+        <a href="{{ url_for('index') }}" class="button">Back to Weather Dashboard</a>
+    </div>
+</body>
+</html>
